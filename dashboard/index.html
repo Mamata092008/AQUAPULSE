@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AQUAPULSE | Municipal Acoustic Leak Triangulation SCADA Portal</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header Bar -->
+    <header class="top-nav">
+      <div class="brand">
+        <div class="logo-pulse">
+          <span class="pulse-ring"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1>AQUAPULSE <span>v1.2</span></h1>
+          <p class="subtitle">Acoustic Cross-Correlation Triangulation Mesh | Team TECHTONICS</p>
+        </div>
+      </div>
+      
+      <div class="nav-metrics">
+        <div class="metric-chip">
+          <span class="label">GRID STATUS</span>
+          <span class="value success"><span class="dot"></span> 12/12 ONLINE</span>
+        </div>
+        <div class="metric-chip">
+          <span class="label">MESH LATENCY</span>
+          <span class="value">18.4 ms</span>
+        </div>
+        <div class="metric-chip">
+          <span class="label">SECTOR</span>
+          <span class="value">DMA-4 (IIT-H Ward)</span>
+        </div>
+        <button id="btn-simulate" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+          SIMULATE PIPE LEAK
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid Content -->
+    <main class="dashboard-grid">
+      <!-- Left Column: Map & Pipeline Visualizer -->
+      <section class="card map-card">
+        <div class="card-header">
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
+            Municipal Pipeline Topology & Triangulation Map
+          </h2>
+          <span class="badge" id="alert-badge">NORMAL MONITORING</span>
+        </div>
+        <div class="card-body map-container">
+          <canvas id="pipeline-map-canvas"></canvas>
+          <div id="leak-overlay-card" class="leak-overlay hidden">
+            <div class="leak-header">
+              <span class="pulse-red"></span>
+              <h3>CONFIRMED LEAK DETECTED</h3>
+            </div>
+            <div class="leak-details">
+              <p><strong>Span:</strong> Node #4 to Node #5 (D = 150.0 m)</p>
+              <p><strong>Position:</strong> <span class="highlight-text" id="leak-distance-readout">68.4 m from Node #4</span></p>
+              <p><strong>TDOA Time Lag (&tau;):</strong> <span id="leak-tau-readout">+50.56 ms</span></p>
+              <p><strong>Confidence (r):</strong> <span class="highlight-text">0.94 (Consensus Confirmed)</span></p>
+              <p><strong>Loss Rate:</strong> ~4,200 Litres/Hour</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column Top: Live Cross-Correlation & Waveforms -->
+      <section class="card telemetry-card">
+        <div class="card-header">
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            Acoustic Waveforms & TDOA Cross-Correlation
+          </h2>
+          <div class="sampling-rate">Fs = 8,000 Hz | 16-Bit ADC</div>
+        </div>
+        <div class="card-body">
+          <div class="waveform-labels">
+            <span class="legend-a"><span class="legend-color node-a"></span> Node #4 (Acoustic AFE)</span>
+            <span class="legend-b"><span class="legend-color node-b"></span> Node #5 (Acoustic AFE)</span>
+            <span class="legend-r"><span class="legend-color node-r"></span> Cross-Correlation R<sub>AB</sub>(&tau;)</span>
+          </div>
+          <canvas id="waveform-canvas"></canvas>
+        </div>
+      </section>
+
+      <!-- Bottom Row Left: Automated Work-Order Dispatch Ticket -->
+      <section class="card dispatch-card">
+        <div class="card-header">
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Automated Municipal SCADA Work-Order
+          </h2>
+          <span class="status-pill" id="ticket-status">STANDBY</span>
+        </div>
+        <div class="card-body ticket-body">
+          <div class="ticket-row">
+            <span class="ticket-label">Ticket ID:</span>
+            <span class="ticket-val mono" id="ticket-id">WO-2026-DMA4-0028</span>
+          </div>
+          <div class="ticket-row">
+            <span class="ticket-label">GPS Coordinate:</span>
+            <span class="ticket-val mono">17°35'44.2"N, 78°07'32.8"E (NH-65 Corridor)</span>
+          </div>
+          <div class="ticket-row">
+            <span class="ticket-label">Excavation Mark:</span>
+            <span class="ticket-val bold" id="ticket-excavation">68.4 m East of Gate Valve Chamber #04</span>
+          </div>
+          <div class="ticket-row">
+            <span class="ticket-label">Pipe Specification:</span>
+            <span class="ticket-val">250 mm Ductile Iron Class K9 (v = 1,250 m/s)</span>
+          </div>
+          <div class="ticket-row">
+            <span class="ticket-label">Action Priority:</span>
+            <span class="ticket-val danger">CRITICAL - EMERGENCY REPAIR</span>
+          </div>
+          <button id="btn-dispatch" class="btn-dispatch" disabled>
+            DISPATCH REPAIR CREW (DIG SPOT PINPOINTED)
+          </button>
+        </div>
+      </section>
+
+      <!-- Bottom Row Right: Node Health & Mesh Telemetry -->
+      <section class="card health-card">
+        <div class="card-header">
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            Mesh Nodes Telemetry
+          </h2>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="telemetry-table">
+            <thead>
+              <tr>
+                <th>Node</th>
+                <th>Location Fitting</th>
+                <th>Battery</th>
+                <th>Noise Baseline</th>
+                <th>TCXO Drift</th>
+                <th>State</th>
+              </tr>
+            </thead>
+            <tbody id="telemetry-body">
+              <tr>
+                <td><strong>Node #1</strong></td>
+                <td>Gate Valve #01</td>
+                <td>98% (Solar)</td>
+                <td>42 dB</td>
+                <td>&lt;0.2 &mu;s</td>
+                <td><span class="status-ok">LISTENING</span></td>
+              </tr>
+              <tr>
+                <td><strong>Node #2</strong></td>
+                <td>Bulk Flow Meter</td>
+                <td>94% (Solar)</td>
+                <td>46 dB</td>
+                <td>&lt;0.3 &mu;s</td>
+                <td><span class="status-ok">LISTENING</span></td>
+              </tr>
+              <tr>
+                <td><strong>Node #3</strong></td>
+                <td>Fire Hydrant A</td>
+                <td>89% (Li-ion)</td>
+                <td>41 dB</td>
+                <td>&lt;0.2 &mu;s</td>
+                <td><span class="status-ok">LISTENING</span></td>
+              </tr>
+              <tr id="row-node-4">
+                <td><strong>Node #4</strong></td>
+                <td>Valve Chamber #04</td>
+                <td>96% (Solar)</td>
+                <td><span id="noise-node-4">44 dB</span></td>
+                <td>&lt;0.1 &mu;s</td>
+                <td><span class="status-ok" id="status-node-4">LISTENING</span></td>
+              </tr>
+              <tr id="row-node-5">
+                <td><strong>Node #5</strong></td>
+                <td>Hydrant #05</td>
+                <td>92% (Solar)</td>
+                <td><span id="noise-node-5">45 dB</span></td>
+                <td>&lt;0.2 &mu;s</td>
+                <td><span class="status-ok" id="status-node-5">LISTENING</span></td>
+              </tr>
+              <tr>
+                <td><strong>Node #6</strong></td>
+                <td>Gate Valve #06</td>
+                <td>91% (Li-ion)</td>
+                <td>43 dB</td>
+                <td>&lt;0.2 &mu;s</td>
+                <td><span class="status-ok">LISTENING</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

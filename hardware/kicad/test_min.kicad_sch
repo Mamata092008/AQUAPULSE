@@ -1,0 +1,33 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "11111111-2222-3333-4444-555555555555")
+	(paper "A3")
+	(title_block
+		(title "AQUAPULSE: Acoustic Cross-Correlation Sensor Node")
+		(date "2026-10-25")
+		(rev "v1.2")
+		(company "Team TECHTONICS | Vishwakarma Awards 2026-27")
+	)
+	(lib_symbols)
+	(wire (pts (xy 50 50) (xy 100 50))
+		(stroke (width 0) (type default))
+		(uuid "22222222-2222-3333-4444-555555555555")
+	)
+	(text "AFE STAGE (MCP6002)"
+		(at 50 45 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+				(bold yes)
+			)
+			(justify left)
+		)
+		(uuid "33333333-2222-3333-4444-555555555555")
+	)
+	(sheet_instances
+		(path "/" (page "1"))
+	)
+	(embedded_fonts no)
+)

@@ -1,0 +1,28 @@
+{
+  "board": {
+    "design_settings": {
+      "defaults": {
+        "board_outline_line_width": 0.1,
+        "copper_line_width": 0.25,
+        "copper_text_size_h": 1.5,
+        "copper_text_size_v": 1.5
+      }
+    }
+  },
+  "meta": {
+    "filename": "AQUAPULSE_Node.kicad_pro",
+    "version": 1
+  },
+  "sheets": [
+    [
+      "8d5dba5c-b83c-4942-81e1-1b9cb4a1cb69",
+      ""
+    ]
+  ],
+  "text_variables": {
+    "COMPANY": "Team TECHTONICS",
+    "PROJECT": "AQUAPULSE Non-Invasive Acoustic Sensor Node",
+    "REVISION": "v1.2",
+    "THEME": "Vishwakarma Awards 2026-27 | Theme 6: Sustainable Cities"
+  }
+}

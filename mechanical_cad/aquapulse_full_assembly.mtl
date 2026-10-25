@@ -1,0 +1,51 @@
+# AQUAPULSE Materials Definition
+
+newmtl ABS_Enclosure_Dark
+Ka 0.024 0.028 0.036
+Kd 0.120 0.140 0.180
+Ks 0.200 0.200 0.200
+Ns 10.0
+d 1.0
+
+newmtl ABS_Lid_Cyan
+Ka 0.004 0.104 0.156
+Kd 0.020 0.520 0.780
+Ks 0.400 0.400 0.400
+Ns 50.0
+d 1.0
+
+newmtl Solar_Glass
+Ka 0.010 0.016 0.030
+Kd 0.050 0.080 0.150
+Ks 0.900 0.900 0.900
+Ns 90.0
+d 1.0
+
+newmtl Neodymium_Magnet
+Ka 0.150 0.156 0.164
+Kd 0.750 0.780 0.820
+Ks 0.900 0.900 0.900
+Ns 80.0
+d 1.0
+
+newmtl Acoustic_Probe_Brass
+Ka 0.170 0.130 0.044
+Kd 0.850 0.650 0.220
+Ks 0.800 0.800 0.800
+Ns 70.0
+d 1.0
+
+newmtl PCB_FR4_Green
+Ka 0.016 0.084 0.036
+Kd 0.080 0.420 0.180
+Ks 0.300 0.300 0.300
+Ns 30.0
+d 1.0
+
+newmtl Silicone_Gasket
+Ka 0.190 0.070 0.030
+Kd 0.950 0.350 0.150
+Ks 0.100 0.100 0.100
+Ns 20.0
+d 1.0
+
